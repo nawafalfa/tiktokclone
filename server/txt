@@ -1,0 +1,52 @@
+[
+  {
+    $match:
+      /**
+       * query: The query in MQL.
+       */
+      {
+        _id: {
+          $oid: "65b779c77a6ea9c7f8cfff11",
+        },
+      },
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Follow",
+        localField: "_id",
+        foreignField: "followingId",
+        as: "followers",
+      },
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "User",
+        localField: "followers.followerId",
+        foreignField: "_id",
+        as: "userFollowers",
+      },
+  },
+]
+
+DATABASE_MONGODB: "mongodb+srv://nawafalfa:chainkiller@fase3.cl6qqf7.mongodb.net/?retryWrites=true&w=majority"
+REDIS_PASSWORD: "2iTwefxjLHrGXHDuo5WIeUruHF0TNjdg"
+REDIS_HOST: "redis-19214.c302.asia-northeast1-1.gce.cloud.redislabs.com"
+REDIS_PORT: "19214"
